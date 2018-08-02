@@ -6,8 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
+import { Provider } from "riddl-js";
+import globalState from "./riddl";
+
 render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider globalState={globalState}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
     , document.getElementById("root"));
