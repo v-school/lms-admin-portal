@@ -23,8 +23,8 @@ export const colors = {
         dark: "#036e6e"
     },
     tertiary: {
-        light: "#00FF62",
-        dark: "#FF0000"
+        light: "#00FF62", //green
+        dark: "#FF0000" //red
     }
 }
 

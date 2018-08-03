@@ -3,7 +3,6 @@ import styled, { colors, fontSizes } from "../styles";
 
 const Label = styled.label`
     &::before{
-        position: absolute;
         color: ${colors.primary.dark};
         font-family: Platelet;
         font-size: ${fontSizes.lg};

@@ -8,6 +8,7 @@ import Image from "./atoms/Image";
 import Label from "./atoms/Label";
 import Input from "./atoms/Input";
 import Button from "./atoms/Button";
+import P from "./atoms/P";
 
 //MOLECULES
 import Logo from "./molecules/Logo";
@@ -19,8 +20,14 @@ import Panel from "./organisms/Panel";
 //PAGES
 import Login from "./pages/Login";
 
-//state
+//CONTAINERS
+import { FormContainer } from "atom-lib";
+
+//STATE
 import { connect } from "riddl-js";
+
+//TRANSMITERS
+import { login } from "./riddl/auth";
 
 class App extends Component {
     componentDidMount() {
@@ -28,10 +35,8 @@ class App extends Component {
         //get data
     }
 
-    // initialize method
-    // 
-
     render() {
+        const { auth } = this.props;
         //if authenticated, then render data screen
         //otherwise render login page
         return (
@@ -43,15 +48,32 @@ class App extends Component {
                                 <Logo>
                                     <Image />
                                 </Logo>
-                                <FormDisplay>
-                                    <Label content={"@"}>
-                                        <Input placeholder="username" />
-                                    </Label>
-                                    <Label content={"#"}>
-                                        <Input placeholder="password" />
-                                    </Label>
-                                    <Button>Log In</Button>
-                                </FormDisplay>
+                                <FormContainer
+                                    reset
+                                    inputs={{ username: "", password: "" }}
+                                    submit={({ inputs }) => this.props.login(inputs)}
+                                    render={({ inputs, handleChange, handleSubmit }) => (
+                                        <FormDisplay onSubmit={handleSubmit}>
+                                            <Label content={"@"} >
+                                                <Input
+                                                    onChange={handleChange}
+                                                    name="username"
+                                                    value={inputs.username}
+                                                    placeholder="username" />
+                                            </Label>
+                                            <Label content={"#"}>
+                                                <Input
+                                                    onChange={handleChange}
+                                                    name="password"
+                                                    value={inputs.password}
+                                                    type="password"
+                                                    placeholder="password" />
+                                            </Label>
+                                            <Button type="submit">Log In</Button>
+                                            {auth.err ? <P err>{auth.err}</P> : <P>V School LMS - Admin</P>  }
+                                        </FormDisplay>
+                                    )}
+                                />
                             </Panel>
                         </Login>
                     )} />
@@ -63,4 +85,4 @@ class App extends Component {
     }
 }
 
-export default connect(App);
+export default connect(App, null, { login });
