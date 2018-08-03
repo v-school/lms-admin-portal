@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from "../styles";
-import { Input } from "./Input";
+import { StyledInput } from "./Input";
 
-export const Button = Input.withComponent("button").extend`
+export const Button = StyledInput.withComponent("button").extend`
     font-family: Platelet;
     margin: 8px;
     &:hover{

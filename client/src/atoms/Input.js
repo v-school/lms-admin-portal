@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { colors, fontSizes } from "../styles";
 
-export const Input = styled.input`
+export const StyledInput = styled.input`
     display: inline;
     color: ${colors.primary.dark};
     font-size: ${fontSizes.md};
@@ -23,10 +23,10 @@ export const Input = styled.input`
     }
 `
 
-function InputDisplay(props) {
+function Input(props) {
     return (
-        <Input {...props} />
+        <StyledInput {...props} />
     )
 }
 
-export default InputDisplay;
+export default Input;
