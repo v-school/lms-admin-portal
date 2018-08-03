@@ -1,16 +1,13 @@
-import { injectGlobal, css } from "styled-components";
-
-// IMAGES
-import vschoolLogo from "../assets/images/vschool logo.png";
+import styled, { injectGlobal, css } from "styled-components";
 
 // FONTS
 import ltPro from "../assets/fonts/LtPro-Condensed/DINNextLTPro-Condensed.woff";
 import platelet from "../assets/fonts/Platelet/Platelet.ttf";
 
 export const fontSizes = {
-    sm: "1em",
-    md: "1.5em",
-    lg: "2.25em",
+    sm: "1.2em",
+    md: "1.8em",
+    lg: "2.5em",
     xlg: "3.375em"
 }
 
@@ -22,11 +19,12 @@ export const colors = {
     },
     secondary: {
         light: "#FFFFFF",
-        mid: "#4271C9"
+        mid: "#4271C9",
+        dark: "#036e6e"
     },
     tertiary: {
-        light: "#00FF62",
-        dark: "#FF0000"
+        light: "#00FF62", //green
+        dark: "#FF0000" //red
     }
 }
 
@@ -43,6 +41,10 @@ injectGlobal`
     *{
         box-sizing: border-box;
         margin: 0;
+    }
+    body #root{
+        background-color: ${colors.primary.light} 
+        height: 100vh;
     }
 `
 
@@ -64,5 +66,5 @@ export const media = Object.keys(devices).reduce((obj, device) => {
     return obj;
 }, {})
 
-
+export default styled;
 

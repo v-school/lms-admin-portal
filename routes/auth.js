@@ -4,14 +4,22 @@ const User = require("../models/users");
 
 const jwt = require("jsonwebtoken");
 
+const AuthError = function(message){
+    Error.call(this, message);
+    this.message = message;
+    this.status = 403;
+}
+
+AuthError.prototype = Error.prototype;
+
 authRoutes.route("/login")
-    .post((req, res) => {
+    .post((req, res, next) => {
         User.findOne({ username: req.body.username }, (err, user) => {
-            if (err) return res.status(500).send(err);
-            if (!user) return res.status(403).send({ message: "Failed login attempt" });
+            if (err) return next(err);
+            if (!user) return next(new AuthError("No user found")) ;
             user.auth(req.body.password, isMatch => {
-                if(!isMatch) return res.status(403).send({ message: "Failed login attempt" });
-                const token = jwt.sign({user: user._id}, process.env.SECRET);
+                if (!isMatch) return next(new AuthError("Invalid password"));
+                const token = jwt.sign({ user: user._id }, process.env.SECRET);
                 return res.status(200).send({ user: user.rmPwd(), token })
             });
         });
