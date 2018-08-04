@@ -1,10 +1,16 @@
-import React from 'react'
+import React from 'react';
+import styled, {colors} from "../styles";
 
-function Home({match, location, ...props}) {
+const Div = styled.div`
+    display: grid;
+    background-color: ${colors.primary.light};
+`
+
+function Home({match, location, children, ...props}) {
     return (
-        <div>
-            
-        </div>
+        <Div {...props}>
+            {children}
+        </Div>
     )
 }
 

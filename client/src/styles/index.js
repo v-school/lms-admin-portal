@@ -46,6 +46,9 @@ injectGlobal`
         background-color: ${colors.primary.light} 
         height: 100vh;
     }
+    a{
+        text-decoration: none;
+    }
 `
 
 //MEDIA QUERIES

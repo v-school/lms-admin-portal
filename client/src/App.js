@@ -9,6 +9,8 @@ import Label from "./atoms/Label";
 import Input from "./atoms/Input";
 import Button from "./atoms/Button";
 import P from "./atoms/P";
+import A from "./atoms/A";
+import NavLink from "./atoms/NavLink"
 
 //MOLECULES
 import Logo from "./molecules/Logo";
@@ -16,9 +18,11 @@ import FormDisplay from "./molecules/FormDisplay";
 
 //ORGANISMS
 import Panel from "./organisms/Panel";
+import Nav from "./organisms/Nav";
 
 //PAGES
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 //CONTAINERS
 import { FormContainer } from "atom-lib";
@@ -54,30 +58,42 @@ class App extends Component {
                                     submit={({ inputs }) => this.props.login(inputs)}
                                     render={({ inputs, handleChange, handleSubmit }) => (
                                         <FormDisplay onSubmit={handleSubmit}>
-                                            <Label content={"@"} >
+                                            <Label htmlFor="username" >
                                                 <Input
+                                                    id="username"
                                                     onChange={handleChange}
                                                     name="username"
                                                     value={inputs.username}
-                                                    placeholder="username" />
+                                                    placeholder="@" />
                                             </Label>
-                                            <Label content={"#"}>
+                                            <Label htmlFor="password">
                                                 <Input
+                                                    id="password"
                                                     onChange={handleChange}
                                                     name="password"
                                                     value={inputs.password}
                                                     type="password"
-                                                    placeholder="password" />
+                                                    placeholder="#" />
                                             </Label>
                                             <Button type="submit">Log In</Button>
-                                            {auth.err ? <P err>{auth.err}</P> : <P>V School LMS - Admin</P>  }
+                                            {auth.err ? <P err>{auth.err}</P> : <P>V School LMS - Admin</P>}
                                         </FormDisplay>
                                     )}
                                 />
                             </Panel>
                         </Login>
                     )} />
-                    {/* home */}
+                    <Route path="/home" render={props => (
+                        <Home {...props}>
+                            <Nav>
+                                <FormDisplay flex>
+                                    <Label>
+                                        <Input id="search" />
+                                    </Label>
+                                </FormDisplay>
+                            </Nav>
+                        </Home>
+                    )} />
                     {/* student */}
                 </Switch>
             </BrowserRouter>
