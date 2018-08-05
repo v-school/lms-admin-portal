@@ -6,8 +6,13 @@ export const StyledLink = styled(Link)`
     color: ${colors.secondary.mid};
     font-family: Platelet;
     font-size: ${fontSizes.md};
+    height: 100%;
+    width: 100%;
+    padding: 6px;
     &:hover{
         cursor: pointer;
+        color: ${colors.secondary.light};
+        background-color: ${colors.primary.dark};
     }
 `
 

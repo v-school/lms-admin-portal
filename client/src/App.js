@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 //libraries
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 //ATOMS
 import Image from "./atoms/Image";
@@ -10,7 +10,8 @@ import Input from "./atoms/Input";
 import Button from "./atoms/Button";
 import P from "./atoms/P";
 import A from "./atoms/A";
-import NavLink from "./atoms/NavLink"
+import NavLink from "./atoms/NavLink";
+import Icon from "./atoms/Icon";
 
 //MOLECULES
 import Logo from "./molecules/Logo";
@@ -19,19 +20,20 @@ import FormDisplay from "./molecules/FormDisplay";
 //ORGANISMS
 import Panel from "./organisms/Panel";
 import Nav from "./organisms/Nav";
+import Menu from "./organisms/Menu";
 
 //PAGES
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 
 //CONTAINERS
-import { FormContainer } from "atom-lib";
+import { FormContainer, Toggler } from "atom-lib";
 
 //STATE
 import { connect } from "riddl-js";
 
 //TRANSMITERS
-import { login } from "./riddl/auth";
+import { login, logout } from "./riddl/auth";
 
 class App extends Component {
     componentDidMount() {
@@ -41,12 +43,11 @@ class App extends Component {
 
     render() {
         const { auth } = this.props;
-        //if authenticated, then render data screen
-        //otherwise render login page
         return (
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/" render={props => (
+            <Switch>
+                <Route exact path="/" render={props => (
+                    auth.isAuthenticated ?
+                        <Redirect to="/home" /> :
                         <Login {...props}>
                             <Panel>
                                 <Logo>
@@ -55,7 +56,7 @@ class App extends Component {
                                 <FormContainer
                                     reset
                                     inputs={{ username: "", password: "" }}
-                                    submit={({ inputs }) => this.props.login(inputs)}
+                                    submit={({ inputs }) => this.props.login(inputs).then(() => props.history.push("/home"))}
                                     render={({ inputs, handleChange, handleSubmit }) => (
                                         <FormDisplay onSubmit={handleSubmit}>
                                             <Label htmlFor="username" >
@@ -82,23 +83,36 @@ class App extends Component {
                                 />
                             </Panel>
                         </Login>
-                    )} />
-                    <Route path="/home" render={props => (
+                )} />
+                <Route path="/home" render={props => (
+                    auth.isAuthenticated ?
                         <Home {...props}>
                             <Nav>
                                 <FormDisplay flex>
                                     <Label>
-                                        <Input id="search" />
+                                        <Input search id="search" placeholder="&#x26B2;" />
                                     </Label>
                                 </FormDisplay>
+                                <Menu>
+                                    <Toggler render={({ toggled, toggle }) => (
+                                        <Fragment>
+                                            <Icon onClick={toggle} />
+                                            <Panel menu toggled={toggled}>
+                                                <NavLink to="/home">Home</NavLink>
+                                                <A onClick={this.props.logout}>Logout</A>
+                                            </Panel>
+                                        </Fragment>
+                                    )}></Toggler>
+                                </Menu>
                             </Nav>
-                        </Home>
-                    )} />
-                    {/* student */}
-                </Switch>
-            </BrowserRouter>
+                            {/* Data list */}
+                        </Home> :
+                        <Redirect to="/" />
+                )} />
+                {/* student */}
+            </Switch>
         )
     }
 }
 
-export default connect(App, null, { login });
+export default connect(App, null, { login, logout });

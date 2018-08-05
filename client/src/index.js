@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
@@ -9,6 +9,8 @@ import globalState from "./riddl";
 
 render(
     <Provider globalState={globalState}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>
     , document.getElementById("root"));

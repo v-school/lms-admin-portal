@@ -5,7 +5,6 @@ const config = {
 };
 
 const handleErrors = response => {
-    console.log(response.statusText);
     if (!response.ok) throw Error(response.statusText);
     return response.json();
 }
@@ -19,7 +18,7 @@ const auth = {
 
 export const login = credentials => setGlobalState => {
     setGlobalState(prevState => ({ auth: { ...prevState.auth, loading: true } }))
-    fetch("/api/auth/login", { method: "POST", body: JSON.stringify(credentials), ...config })
+    return fetch("/api/auth/login", { method: "POST", body: JSON.stringify(credentials), ...config })
         .then(handleErrors)
         .then(({ user, token }) => {
             localStorage.setItem("token", token);
@@ -43,5 +42,11 @@ export const login = credentials => setGlobalState => {
             }
         })))
 };
+
+export const logout = () => setGlobalState => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setGlobalState({auth});
+}
 
 export default auth;
