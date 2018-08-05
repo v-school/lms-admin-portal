@@ -11,6 +11,8 @@ import Button from "./atoms/Button";
 import P from "./atoms/P";
 import A from "./atoms/A";
 import H1 from "./atoms/H1";
+import H3 from "./atoms/H3";
+import Select from "./atoms/Select";
 import NavLink from "./atoms/NavLink";
 import Icon from "./atoms/Icon";
 
@@ -43,7 +45,7 @@ class App extends Component {
     }
 
     render() {
-        const { auth } = this.props;
+        const { auth, submissions } = this.props;
         return (
             <Switch>
                 <Route exact path="/" render={props => (
@@ -107,11 +109,22 @@ class App extends Component {
                                 </Menu>
                             </Nav>
                             <H1>All Submissions</H1>
-                            <Menu dataMenu>
-                                
+                            <Menu grid flex>
+                                <Button flex>Show All</Button>
+                                <Button flex>Recent</Button>
+                                <Button flex>Oldest</Button>
+                                <Button flex>Submitted</Button>
+                                <Button flex>Completed</Button>
                             </Menu>
-                            {/* Menu */}
-                            {/* List */}
+                            <H3 gridArea="date">Date</H3>
+                            <H3 gridArea="url">Github URL</H3>
+                            <H3 gridArea="status">Status</H3>
+                            <H3 gridArea="student">Student</H3>
+                            {/* {submissions.loading ?
+                                
+                            submissions.map((submissions, i) => (
+
+                            ))} */}
                         </Home> :
                         <Redirect to="/" />
                 )} />
