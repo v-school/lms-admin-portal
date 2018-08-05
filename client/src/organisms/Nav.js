@@ -5,6 +5,7 @@ const StyledNav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: center;
+    grid-area: nav;
 `
 
 function Nav({children, ...props}) {

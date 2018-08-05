@@ -10,6 +10,7 @@ import Input from "./atoms/Input";
 import Button from "./atoms/Button";
 import P from "./atoms/P";
 import A from "./atoms/A";
+import H1 from "./atoms/H1";
 import NavLink from "./atoms/NavLink";
 import Icon from "./atoms/Icon";
 
@@ -105,7 +106,12 @@ class App extends Component {
                                     )}></Toggler>
                                 </Menu>
                             </Nav>
-                            {/* Data list */}
+                            <H1>All Submissions</H1>
+                            <Menu dataMenu>
+                                
+                            </Menu>
+                            {/* Menu */}
+                            {/* List */}
                         </Home> :
                         <Redirect to="/" />
                 )} />

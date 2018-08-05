@@ -12,7 +12,7 @@ const handleErrors = response => {
 const auth = {
     loading: false,
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: true,
     err: null
 }
 
