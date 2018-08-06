@@ -4,7 +4,7 @@ import {css} from "styled-components";
 
 const flexMixin = css`
     display: flex;
-    margin: 0 0 8px;
+    margin: 0 0 24px;
 `
 const gridMixin = css`
     grid-area: menu;

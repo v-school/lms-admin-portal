@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 
 //ROUTES
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/submissions", require("./routes/submissions"));
 
 //HANDLE ERRORS
 if (app.get('env') === 'development') {

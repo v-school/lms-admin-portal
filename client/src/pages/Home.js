@@ -1,16 +1,26 @@
 import React from 'react';
-import styled, { colors } from "../styles";
+import styled, { colors, media } from "../styles";
 
 const Div = styled.div`
     display: grid;
-    width: 100%;
+    margin: auto;
+    width: 95%;
     background-color: ${colors.primary.light};
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 35% 15% 20% 30%;
     grid-template-areas : 
         "nav nav nav nav" 
         "hdr hdr hdr hdr"
         "menu menu menu menu"
-        "date url status student"; 
+        "ass url status student"; 
+    ${media.tablet`
+        width: 90%;
+    `}
+    ${media.tabletHoriz`
+        width: 80%;
+    `}
+    ${media.desktop`
+        width: 60%;
+    `}
 `
 
 function Home({ match, location, children, ...props }) {

@@ -5,6 +5,7 @@ import ltPro from "../assets/fonts/LtPro-Condensed/DINNextLTPro-Condensed.woff";
 import platelet from "../assets/fonts/Platelet/Platelet.ttf";
 
 export const fontSizes = {
+    xsm: "1em",
     sm: "1.2em",
     md: "1.8em",
     lg: "2.5em",
@@ -23,7 +24,7 @@ export const colors = {
         dark: "#036e6e"
     },
     tertiary: {
-        light: "#00FF62", //green
+        light: "#28c772", //green
         dark: "#FF0000" //red
     }
 }

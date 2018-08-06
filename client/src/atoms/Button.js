@@ -6,10 +6,9 @@ import { StyledInput } from "./Input";
 const flexMixin = css`
     margin: 0;
     padding: 0;
-    border: solid ${colors.primary.dark};
-    border-width: 0 1px;
     font-size: 1em;
     flex: 1;
+    margin: 0 1px;
     padding: 1px;
     &:hover{
         cursor: pointer;
