@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, {media} from "../styles";
+import styled, { media } from "../styles";
 
 const Input = styled.input`
     position: absolute;
@@ -16,12 +16,12 @@ export default class Clipboard extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick(e) {
+        if (e.target.tagName !== "P") { this.input.select(); return };
         this.input.select();
         document.execCommand("copy");
         this.input.blur();
         alert("Copied!");
         window.open("https://codesandbox.io", "_blank");
-
     }
     render() {
         const { render, url } = this.props;

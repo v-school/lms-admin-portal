@@ -28,7 +28,8 @@ import Modal from "./organisms/Modal";
 
 //PAGES
 import Login from "./pages/Login";
-import Home from "./pages/Home";
+import Home, { Div } from "./pages/Home";
+import StudentPage from "./pages/Student";
 
 //CONTAINERS
 import { FormContainer, Toggler } from "atom-lib";
@@ -50,99 +51,25 @@ class App extends Component {
         return (
             auth.loading ?
                 <Modal>
-                    loading
+                    Loading User
                 </Modal>
                 :
                 <Switch>
                     <Route exact path="/" render={props => (
                         auth.isAuthenticated ?
                             <Redirect to="/home" /> :
-                            <Login {...props}>
-                                <Panel>
-                                    <Logo>
-                                        <Image />
-                                    </Logo>
-                                    <FormContainer
-                                        reset
-                                        inputs={{ username: "", password: "" }}
-                                        submit={({ inputs }) => this.props.login(inputs).then(() => props.history.push("/home"))}
-                                        render={({ inputs, handleChange, handleSubmit }) => (
-                                            <FormDisplay onSubmit={handleSubmit}>
-                                                <Label htmlFor="username" >
-                                                    <Input
-                                                        id="username"
-                                                        onChange={handleChange}
-                                                        name="username"
-                                                        value={inputs.username}
-                                                        placeholder="@" />
-                                                </Label>
-                                                <Label htmlFor="password">
-                                                    <Input
-                                                        id="password"
-                                                        onChange={handleChange}
-                                                        name="password"
-                                                        value={inputs.password}
-                                                        type="password"
-                                                        placeholder="#" />
-                                                </Label>
-                                                <Button type="submit">Log In</Button>
-                                                {auth.err ? <P err>{auth.err}</P> : <P>V School LMS Admin</P>}
-                                            </FormDisplay>
-                                        )}
-                                    />
-                                </Panel>
-                            </Login>
+                            <Login {...props} />
                     )} />
                     <Route path="/home" render={props => (
                         auth.isAuthenticated ?
-                            <Home {...props}>
-                                <Nav>
-                                    <FormDisplay flex>
-                                        <Label>
-                                            <Input search id="search" placeholder="&#x26B2;" />
-                                        </Label>
-                                    </FormDisplay>
-                                    <Menu>
-                                        <Toggler render={({ toggled, toggle }) => (
-                                            <Fragment>
-                                                <Icon onClick={toggle} />
-                                                <Panel menu toggled={toggled}>
-                                                    <NavLink to="/home">Home</NavLink>
-                                                    <A onClick={this.props.logout}>Logout</A>
-                                                </Panel>
-                                            </Fragment>
-                                        )}></Toggler>
-                                    </Menu>
-                                </Nav>
-                                <H1>Submissions</H1>
-                                <Menu grid flex>
-                                    <Button flex>Show All</Button>
-                                    <Button flex>Recent</Button>
-                                    <Button flex>Oldest</Button>
-                                    <Button flex>Submitted</Button>
-                                    <Button flex>Completed</Button>
-                                </Menu>
-                                <H3 gridArea="ass">Assignment</H3>
-                                <H3 gridArea="url">Github</H3>
-                                <H3 gridArea="status">Status</H3>
-                                <H3 gridArea="student">Student</H3>
-                                {submissions.loading ?
-                                    <P grid>Waiting for student submissions</P> :
-                                    submissions.data.map((submission, i) => (
-                                            <Fragment key={submission._id}>
-                                                <P hasIcon completed={submission.completed} table gridColumn="1">{submission.assignmentName}</P>
-                                                <Clipboard url={submission.githubUrl} render={({ input, handleClick }) => (
-                                                    <P hasIcon onClick={handleClick}completed={submission.completed} table gridColumn="2">&#x2398; {input}</P>
-                                                )} />
-                                                <P hasIcon completed={submission.completed} table gridColumn="3">{submission.completed ? "&#10003;".replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)) : "X"}</P>
-                                                <P hasIcon completed={submission.completed} table gridColumn="4">{submission.student.name}</P>
-                                            </Fragment>
-                                    ))
-                                }
-                            </Home> :
+                            <Home {...props} /> :
                             <Redirect to="/" />
                     )} />
-                    {/* student */}
+                    <Route path="/students/:id" render={({ match: { params: { id } } }) => (
+                        auth.isAuthenticated ?
+                            <StudentPage {...submissions.data.find(sub => sub._id === id)}>test</StudentPage> :
+                            <Redirect to="/" />
+                    )} />
                 </Switch>
         )
     }

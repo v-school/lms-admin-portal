@@ -6,7 +6,7 @@ import platelet from "../assets/fonts/Platelet/Platelet.ttf";
 
 export const fontSizes = {
     xsm: "1em",
-    sm: "1.2em",
+    sm: "1.15em",
     md: "1.8em",
     lg: "2.5em",
     xlg: "3.375em"

@@ -6,7 +6,7 @@ export const StyledH3 = styled.h3`
     color: ${colors.primary.dark};
     font-size: ${fontSizes.sm};
     font-family: LtPro;
-    grid-area: ${props => props.gridArea};
+    grid-area: ${props => props.gridArea || "auto"};
 `
 
 function H3({ children, ...props }) {

@@ -1,7 +1,10 @@
 const submissions = {
     data: [],
     loading: true,
-    err: null
+    err: null,
+    filterBy: (sub) => !sub.completed,
+    sortBy: (a, b) => -1,
+    searchTerm: ""
 }
 
 const config = {
@@ -18,20 +21,51 @@ const handleErrors = response => {
 export const getSubmissions = () => setGlobalState => (
     fetch("/api/submissions", config)
         .then(handleErrors)
-        .then(data => setGlobalState({
+        .then(data => setGlobalState(prevState => ({
             submissions: {
+                ...prevState.submissions,
                 data,
                 loading: false,
                 err: null
             }
-        }))
-        .catch(err => setGlobalState({
+        })))
+        .catch(err => setGlobalState(prevState => ({
             submissions: {
+                ...prevState.submissions,
                 data: [],
                 loading: false,
                 err: err.message
             }
-        }))
+        })))
 )
+
+export const sortFilter = (name, cb) => setGlobalState => {
+    setGlobalState(prevState => ({
+        submissions: {
+            ...prevState.submissions,
+            [name]: cb
+        }
+    }))
+}
+
+export const showAll = () => setGlobalState => {
+    setGlobalState(prevState => ({
+        submissions: {
+            ...prevState.submissions,
+            filterBy: (sub) => true,
+            sortBy: (a, b) => -1
+        }
+    }))
+}
+
+export const handleSearch = searchTerm => setGlobalState => {
+    setGlobalState(prevState => ({
+        submissions: {
+            ...prevState.submissions,
+            filterBy: (sub) => true,
+            searchTerm
+        }
+    }))
+}
 
 export default submissions;

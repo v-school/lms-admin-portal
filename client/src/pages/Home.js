@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled, { colors, media } from "../styles";
 
-const Div = styled.div`
+//components
+import Nav from "../organisms/Nav";
+import H1 from "../atoms/H1";
+import H3 from "../atoms/h3";
+import P, { DisguisedLink } from "../atoms/P";
+import DataMenu from "../organisms/DataMenu";
+import Clipboard from "../containers/Clipboard";
+
+//search
+import { filterSearch } from "../molecules/Search";
+
+//state
+import { connect } from "riddl-js";
+
+export const Div = styled.div`
     display: grid;
     margin: auto;
     width: 95%;
@@ -23,12 +37,31 @@ const Div = styled.div`
     `}
 `
 
-function Home({ match, location, children, ...props }) {
+function Home({ match, location, history, children, data, loading, filterBy, sortBy, searchTerm, ...props }) {
     return (
         <Div {...props}>
-            {children}
+            <Nav />
+            <H1>Submissions</H1>
+            <DataMenu />
+            <H3 gridArea="ass">Assignment</H3>
+            <H3 gridArea="url">Github</H3>
+            <H3 gridArea="status">Status</H3>
+            <H3 gridArea="student">Student</H3>
+            {loading ?
+                <P grid>Waiting for student submissions</P> :
+                data.filter(sub => filterSearch(sub, searchTerm)).filter(filterBy).sort(sortBy).map((submission, i) => (
+                    <Fragment key={submission._id}>
+                        <P hasIcon completed={submission.completed} table gridColumn="1">{submission.assignmentName}</P>
+                        <Clipboard url={submission.githubUrl} render={({ input, handleClick }) => (
+                            <P hasIcon onClick={handleClick} completed={submission.completed} table gridColumn="2">&#x2398; {input}</P>
+                        )} />
+                        <P hasIcon completed={submission.completed} table gridColumn="3">{submission.completed ? "&#10003;".replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)) : "X"}</P>
+                        <DisguisedLink onClick={() => history.push(`/students/${submission._id}`)} hasIcon completed={submission.completed} table gridColumn="4">{submission.student.name}</DisguisedLink>
+                    </Fragment>
+                ))
+            }
         </Div>
     )
 }
 
-export default Home;
+export default connect(Home, state => state.submissions);
