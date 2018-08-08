@@ -7,6 +7,7 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     padding: 8px;
+    flex: .8;
 `
 
 function FormDisplay({children, ...props}) {

@@ -5,13 +5,12 @@ const config = {
 };
 
 const handleErrors = response => {
-    console.log(response.statusText);
     if (!response.ok) throw Error(response.statusText);
     return response.json();
 }
 
 const auth = {
-    loading: false,
+    loading: true,
     user: null,
     isAuthenticated: false,
     err: null
@@ -19,7 +18,7 @@ const auth = {
 
 export const login = credentials => setGlobalState => {
     setGlobalState(prevState => ({ auth: { ...prevState.auth, loading: true } }))
-    fetch("/api/auth/login", { method: "POST", body: JSON.stringify(credentials), ...config })
+    return fetch("/api/auth/login", { method: "POST", body: JSON.stringify(credentials), ...config })
         .then(handleErrors)
         .then(({ user, token }) => {
             localStorage.setItem("token", token);
@@ -43,5 +42,31 @@ export const login = credentials => setGlobalState => {
             }
         })))
 };
+
+export const logout = () => setGlobalState => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setGlobalState({ auth: { ...auth, loading: false } });
+}
+
+export const authenticate = () => setGlobalState => (
+    fetch("/api/auth/authenticate", { headers: { ...config.headers, Authorization: `Bearer ${localStorage.getItem("token")}` } })
+        .then(handleErrors)
+        .then(({ user }) => setGlobalState({
+            auth: {
+                loading: false,
+                user,
+                isAuthenticated: true,
+                err: null
+            }
+        }))
+        .catch(err => setGlobalState(prevState => ({
+            auth: {
+                ...prevState.auth,
+                loading: false,
+                isAuthenticated: false
+            }
+        })))
+)
 
 export default auth;
