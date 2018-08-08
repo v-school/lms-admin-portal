@@ -21,7 +21,8 @@ export default class Clipboard extends Component {
         document.execCommand("copy");
         this.input.blur();
         alert("Copied!");
-        window.open("https://codesandbox.io", "_blank");
+        const section = "https://github.com/";
+        window.open("https://codesandbox.io/s/github/" + this.props.url.substring(section.length), "_blank");
     }
     render() {
         const { render, url } = this.props;

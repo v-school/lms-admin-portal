@@ -14,7 +14,7 @@ function DataMenu({ sortFilter, showAll, ...props }) {
             <Button onClick={() => showAll()} flex>Show All</Button>
             <Button onClick={() => sortFilter("sortBy", (a, b) => convertDateToMil(a.createdAt) - convertDateToMil(b.createdAt))} flex>Recent</Button>
             <Button onClick={() => sortFilter("sortBy", (a, b) => convertDateToMil(b.createdAt) - convertDateToMil(a.createdAt))}flex>Oldest</Button>
-            <Button onClick={() => sortFilter("filterBy", sub => !sub.completed)} flex>Submitted</Button>
+            <Button onClick={() => sortFilter("filterBy", sub => !sub.completed)} flex>Requires Feedback</Button>
             <Button onClick={() => sortFilter("filterBy", sub => sub.completed)} flex>Completed</Button>
         </Menu>
     )
