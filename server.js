@@ -9,9 +9,24 @@ require("dotenv").config();
 app.use(bodyParser.json());
 
 //ROUTES
-app.use("/auth", require("./routes/auth"));
-app.use((req, res) => {
-    res.status(404).end();
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/submissions", require("./routes/submissions"));
+
+//HANDLE ERRORS
+if (app.get('env') === 'development') {
+    app.use((err, req, res, next) => {
+        res.statusMessage = err.message;
+        return res.status(err.status || 500).send();
+    });
+}
+
+app.use((err, req, res, next) => {
+    res.statusMessage = err.message;
+    res.status(err.status || 500);
+    res.send({
+        message: err.message,
+        error: {}
+    });
 });
 
 // CONNECTION

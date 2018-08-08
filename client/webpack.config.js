@@ -13,7 +13,9 @@ const devMode = process.env.NODE_ENV !== "production";
 module.exports = {
     devServer: {
         host: process.env.HOST,
-        port: process.env.PORT || 3000
+        port: process.env.PORT || 3000,
+        historyApiFallback: true,
+        proxy: { "/api": { target: 'http://localhost:8080', secure: false }  }
     },
     optimization: {
         minimizer: [
@@ -66,7 +68,16 @@ module.exports = {
                         name: "images/[hash]-[name].[ext]"
                     }
                 }]
-            }
+            },
+            {
+                test: /\.(ttf|eot|woff|woff2)$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: "fonts/[name].[ext]",
+                    },
+                },
+            },
         ]
     },
     plugins: [

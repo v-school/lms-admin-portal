@@ -1,8 +1,16 @@
-import React from 'react'
+import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter } from "react-router-dom";
 
-import "./css/styles.css";
+import App from "./App";
 
-import App from "./components/App";
+import { Provider } from "riddl-js";
+import globalState from "./riddl";
 
-render(<App />, document.getElementById("root"));
+render(
+    <Provider globalState={globalState}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
+    , document.getElementById("root"));
