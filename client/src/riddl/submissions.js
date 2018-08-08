@@ -39,6 +39,10 @@ export const getSubmissions = () => setGlobalState => (
         })))
 )
 
+// export const markComplete = id => setGlobalState => (
+
+// )
+
 export const sortFilter = (name, cb) => setGlobalState => {
     setGlobalState(prevState => ({
         submissions: {
@@ -53,7 +57,8 @@ export const showAll = () => setGlobalState => {
         submissions: {
             ...prevState.submissions,
             filterBy: (sub) => true,
-            sortBy: (a, b) => -1
+            sortBy: (a, b) => -1,
+            searchTerm: ""
         }
     }))
 }
@@ -63,7 +68,7 @@ export const handleSearch = searchTerm => setGlobalState => {
         submissions: {
             ...prevState.submissions,
             filterBy: (sub) => true,
-            searchTerm
+            searchTerm: searchTerm.toLowerCase()
         }
     }))
 }

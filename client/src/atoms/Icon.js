@@ -8,6 +8,8 @@ const StyledIcon = styled.span`
     margin: 3px;
     &:hover{
         cursor: pointer;
+        color: ${colors.secondary.light};
+        background-color: ${colors.primary.dark};
     }
 `
 

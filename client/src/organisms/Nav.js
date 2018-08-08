@@ -15,6 +15,9 @@ import P from "../atoms/P";
 import { connect } from "riddl-js";
 import { logout } from "../riddl/auth";
 
+//navigation
+import {withRouter} from "react-router-dom";
+
 const StyledNav = styled.nav`
     display: flex;
     align-items: center;
@@ -22,10 +25,10 @@ const StyledNav = styled.nav`
     grid-area: nav;
 `
 
-function Nav({ children, logout, ...props }) {
+function Nav({ children, logout, history, ...props }) {
     return (
         <StyledNav {...props}>
-            <P>Back</P>
+            <P onClick={()=> history.goBack()}selectable>Back</P>
             <Search />
             <Menu>
                 <Toggler render={({ toggled, toggle }) => (
@@ -42,4 +45,4 @@ function Nav({ children, logout, ...props }) {
     )
 }
 
-export default connect(Nav, null, { logout });
+export default withRouter(connect(Nav, null, { logout }));

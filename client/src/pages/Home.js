@@ -11,6 +11,7 @@ import Clipboard from "../containers/Clipboard";
 
 //search
 import { filterSearch } from "../molecules/Search";
+import { handleSearch } from "../riddl/submissions";
 
 //state
 import { connect } from "riddl-js";
@@ -37,7 +38,7 @@ export const Div = styled.div`
     `}
 `
 
-function Home({ match, location, history, children, data, loading, filterBy, sortBy, searchTerm, ...props }) {
+function Home({ match, location, history, children, data, loading, filterBy, sortBy, searchTerm, handleSearch, ...props }) {
     return (
         <Div {...props}>
             <Nav />
@@ -51,7 +52,7 @@ function Home({ match, location, history, children, data, loading, filterBy, sor
                 <P grid>Waiting for student submissions</P> :
                 data.filter(sub => filterSearch(sub, searchTerm)).filter(filterBy).sort(sortBy).map((submission, i) => (
                     <Fragment key={submission._id}>
-                        <P hasIcon completed={submission.completed} table gridColumn="1">{submission.assignmentName}</P>
+                        <P onClick={() => handleSearch(submission.assignmentName)} hasIcon completed={submission.completed} table gridColumn="1">{submission.assignmentName}</P>
                         <Clipboard url={submission.githubUrl} render={({ input, handleClick }) => (
                             <P hasIcon onClick={handleClick} completed={submission.completed} table gridColumn="2">&#x2398; {input}</P>
                         )} />
@@ -64,4 +65,4 @@ function Home({ match, location, history, children, data, loading, filterBy, sor
     )
 }
 
-export default connect(Home, state => state.submissions);
+export default connect(Home, state => state.submissions, { handleSearch });

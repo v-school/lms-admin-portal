@@ -10,12 +10,6 @@ const flexMixin = css`
     flex: 1;
     margin: 0 1px;
     padding: 1px;
-    &:hover{
-        cursor: pointer;
-        background-color: ${colors.primary.dark};
-        color: ${colors.secondary.light};
-    }
-    
 `
 
 export const Button = styled(StyledInput.withComponent("button"))`
@@ -25,6 +19,8 @@ export const Button = styled(StyledInput.withComponent("button"))`
     ${props => props.flex && flexMixin};
     &:hover{
         cursor: pointer;
+        background-color: ${colors.primary.dark};
+        color: ${colors.secondary.light};
     }
 `
 

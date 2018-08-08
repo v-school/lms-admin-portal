@@ -11,17 +11,24 @@ const iconMixin = css`
     &:hover{
         cursor: pointer;
         border: 1px solid ${colors.primary.dark};
+        
     }
     input{
         font-family: monospace;
     }
 `
-
+const selectableMixin = css`
+    &:hover{
+        cursor: pointer;
+        color: ${colors.secondary.light};
+        background-color: ${colors.primary.dark};
+    }
+`
 const tableMixin = css`
     white-space:nowrap;
     font-size: ${fontSizes.xsm};
     line-height: ${fontSizes.xsm}
-    padding: 2px 0;
+    padding: 2px;
     margin: 0 0 3px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -42,11 +49,13 @@ const StyledP = styled.p.attrs({
     ${props => props.grid && gridMixin};
     ${props => props.table && tableMixin};
     ${props => props.hasIcon && iconMixin};
+    ${props => props.selectable && selectableMixin};
 `
 
 export const DisguisedLink = StyledP.extend`
     text-decoration: underline;
 `
+
 
 function P({ children, ...props }) {
     return (

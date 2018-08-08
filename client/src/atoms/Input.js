@@ -9,12 +9,6 @@ const placeholderMixin = css`
     padding: 0;
 `
 
-const searchMixin = css`
-    &:hover{
-        transform: scale(1.01);
-    }
-`
-
 export const StyledInput = styled.input`
     display: inline;
     width: 100%;
@@ -26,7 +20,6 @@ export const StyledInput = styled.input`
     border: none;
     text-align: center;
     box-shadow: 3px 3px 3px ${colors.primary.dark};
-    ${props => props.search && searchMixin}
     &::placeholder{
         font-size: ${fontSizes.sm};
         margin: 3px;
