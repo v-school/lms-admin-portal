@@ -4,6 +4,7 @@ import styled, { media } from "../styles";
 const Input = styled.input`
     position: absolute;
     opacity: 0;
+    z-index: -100;
     ${media.tabletHoriz`
         position: relative;
         opacity: 1;

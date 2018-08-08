@@ -11,7 +11,7 @@ import Clipboard from "../containers/Clipboard";
 
 //search
 import { filterSearch } from "../molecules/Search";
-import { handleSearch } from "../riddl/submissions";
+import { handleSearch, markStatus } from "../riddl/submissions";
 
 //state
 import { connect } from "riddl-js";
@@ -38,7 +38,7 @@ export const Div = styled.div`
     `}
 `
 
-function Home({ match, location, history, children, data, loading, filterBy, sortBy, searchTerm, handleSearch, ...props }) {
+function Home({ match, location, history, children, data, loading, filterBy, sortBy, searchTerm, handleSearch, markStatus, ...props }) {
     return (
         <Div {...props}>
             <Nav />
@@ -56,7 +56,7 @@ function Home({ match, location, history, children, data, loading, filterBy, sor
                         <Clipboard url={submission.githubUrl} render={({ input, handleClick }) => (
                             <P hasIcon onClick={handleClick} completed={submission.completed} table gridColumn="2">&#x2398; {input}</P>
                         )} />
-                        <P hasIcon completed={submission.completed} table gridColumn="3">{submission.completed ? "&#10003;".replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)) : "X"}</P>
+                        <P onClick={()=> markStatus(submission._id, !submission.completed)}hasIcon completed={submission.completed} table gridColumn="3">{submission.completed ? "&#10003;".replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)) : "X"}</P>
                         <DisguisedLink onClick={() => history.push(`/students/${submission._id}`)} hasIcon completed={submission.completed} table gridColumn="4">{submission.student.name}</DisguisedLink>
                     </Fragment>
                 ))
@@ -65,4 +65,4 @@ function Home({ match, location, history, children, data, loading, filterBy, sor
     )
 }
 
-export default connect(Home, state => state.submissions, { handleSearch });
+export default connect(Home, state => state.submissions, { handleSearch, markStatus });

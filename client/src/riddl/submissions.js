@@ -9,7 +9,8 @@ const submissions = {
 
 const config = {
     headers: {
-        "Content-Type": "application/json; charset=utf-8"
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
     },
 };
 
@@ -39,9 +40,30 @@ export const getSubmissions = () => setGlobalState => (
         })))
 )
 
-// export const markComplete = id => setGlobalState => (
-
-// )
+export const markStatus = (id, status) => setGlobalState => {
+    fetch("/api/submissions/" + id, {
+        method: "PUT",
+        body: JSON.stringify({ completed: status }),
+        ...config
+    })
+        .then(handleErrors)
+        .then(data => setGlobalState(prevState => ({
+            submissions: {
+                ...prevState.submissions,
+                data: prevState.submissions.data.map(sub => sub._id === id ? data : sub),
+                err: null,
+                loading: false
+            }
+        })))
+        .catch(err => setGlobalState(prevState => ({
+            submissions: {
+                ...prevState.submissions,
+                data: [],
+                loading: false,
+                err: err.message
+            }
+        })))
+}
 
 export const sortFilter = (name, cb) => setGlobalState => {
     setGlobalState(prevState => ({

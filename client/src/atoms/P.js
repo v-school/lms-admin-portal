@@ -33,7 +33,7 @@ const tableMixin = css`
     text-overflow: ellipsis;
     overflow: hidden;
     border: 1px solid ${colors.secondary.light};
-    background-color: ${colors.secondary.light}
+    background-color: ${colors.secondary.light};
     color: ${props => props.completed ? colors.tertiary.light : colors.tertiary.dark};
 `
 

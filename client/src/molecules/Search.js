@@ -17,7 +17,6 @@ export const filterSearch = (sub, searchTerm) => {
                 if (String(sub[key][nestedKey]).toLowerCase().includes(searchTerm)) return true;
             }
         } else {
-            console.log(sub[key]);
             if (String(sub[key]).toLowerCase().includes(searchTerm)) return true;
         }
     }
