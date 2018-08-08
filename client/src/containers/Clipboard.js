@@ -6,7 +6,6 @@ const Input = styled.input`
     opacity: 0;
     z-index: -100;
     ${media.tabletHoriz`
-        position: relative;
         opacity: 1;
     `}
 `

@@ -11,7 +11,6 @@ const iconMixin = css`
     &:hover{
         cursor: pointer;
         border: 1px solid ${colors.primary.dark};
-        
     }
     input{
         font-family: monospace;
@@ -25,7 +24,7 @@ const selectableMixin = css`
     }
 `
 const tableMixin = css`
-    white-space:nowrap;
+    white-space: nowrap;
     font-size: ${fontSizes.xsm};
     line-height: ${fontSizes.xsm}
     padding: 2px;
