@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 //libraries
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 //ATOMS
 import Image from "./atoms/Image";
@@ -9,6 +9,12 @@ import Label from "./atoms/Label";
 import Input from "./atoms/Input";
 import Button from "./atoms/Button";
 import P from "./atoms/P";
+import A from "./atoms/A";
+import H1 from "./atoms/H1";
+import H3 from "./atoms/H3";
+import Select from "./atoms/Select";
+import NavLink from "./atoms/NavLink";
+import Icon from "./atoms/Icon";
 
 //MOLECULES
 import Logo from "./molecules/Logo";
@@ -16,73 +22,57 @@ import FormDisplay from "./molecules/FormDisplay";
 
 //ORGANISMS
 import Panel from "./organisms/Panel";
+import Nav from "./organisms/Nav";
+import Menu from "./organisms/Menu";
+import Modal from "./organisms/Modal";
 
 //PAGES
 import Login from "./pages/Login";
+import Home, { Div } from "./pages/Home";
+import StudentPage from "./pages/Student";
 
 //CONTAINERS
-import { FormContainer } from "atom-lib";
+import { FormContainer, Toggler } from "atom-lib";
+import Clipboard from "./containers/Clipboard";
 
 //STATE
 import { connect } from "riddl-js";
 
 //TRANSMITERS
-import { login } from "./riddl/auth";
+import { login, logout, authenticate } from "./riddl/auth";
+import { getSubmissions } from "./riddl/submissions";
 
 class App extends Component {
     componentDidMount() {
-        //get auth status
-        //get data
+        this.props.authenticate().then(() => this.props.getSubmissions());
     }
-
     render() {
-        const { auth } = this.props;
-        //if authenticated, then render data screen
-        //otherwise render login page
+        const { auth, submissions } = this.props;
         return (
-            <BrowserRouter>
+            auth.loading ?
+                <Modal>
+                    Loading User
+                </Modal>
+                :
                 <Switch>
                     <Route exact path="/" render={props => (
-                        <Login {...props}>
-                            <Panel>
-                                <Logo>
-                                    <Image />
-                                </Logo>
-                                <FormContainer
-                                    reset
-                                    inputs={{ username: "", password: "" }}
-                                    submit={({ inputs }) => this.props.login(inputs)}
-                                    render={({ inputs, handleChange, handleSubmit }) => (
-                                        <FormDisplay onSubmit={handleSubmit}>
-                                            <Label content={"@"} >
-                                                <Input
-                                                    onChange={handleChange}
-                                                    name="username"
-                                                    value={inputs.username}
-                                                    placeholder="username" />
-                                            </Label>
-                                            <Label content={"#"}>
-                                                <Input
-                                                    onChange={handleChange}
-                                                    name="password"
-                                                    value={inputs.password}
-                                                    type="password"
-                                                    placeholder="password" />
-                                            </Label>
-                                            <Button type="submit">Log In</Button>
-                                            {auth.err ? <P err>{auth.err}</P> : <P>V School LMS - Admin</P>  }
-                                        </FormDisplay>
-                                    )}
-                                />
-                            </Panel>
-                        </Login>
+                        auth.isAuthenticated ?
+                            <Redirect to="/home" /> :
+                            <Login {...props} />
                     )} />
-                    {/* home */}
-                    {/* student */}
+                    <Route path="/home" render={props => (
+                        auth.isAuthenticated ?
+                            <Home {...props} /> :
+                            <Redirect to="/" />
+                    )} />
+                    <Route path="/students/:id" render={({ match: { params: { id } } }) => (
+                        auth.isAuthenticated ?
+                            <StudentPage {...submissions.data.find(sub => sub._id === id)}>test</StudentPage> :
+                            <Redirect to="/" />
+                    )} />
                 </Switch>
-            </BrowserRouter>
         )
     }
 }
 
-export default connect(App, null, { login });
+export default connect(App, null, { login, logout, authenticate, getSubmissions });
